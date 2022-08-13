@@ -1,0 +1,28 @@
+name: "Unit Tests"
+
+on:
+  workflow_call:
+    inputs:
+      go_versions:
+        type: string
+        description: Go versions to run workflow on
+        required: true
+
+jobs:
+  test:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: ${{ fromJSON(inputs.go_versions) }}
+    name: Go ${{ matrix.go_version }} unit tests
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go_version }}
+
+      - run: make test

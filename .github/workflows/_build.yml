@@ -1,0 +1,32 @@
+name: Go
+
+on:
+  workflow_call:
+    inputs:
+      go_versions:
+        type: string
+        description: Go versions to run workflow on
+        required: true
+
+jobs:
+  build:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: ${{ fromJSON(inputs.go_versions) }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go_version }}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          distribution: goreleaser
+          version: latest
+          args: build --single-target --snapshot

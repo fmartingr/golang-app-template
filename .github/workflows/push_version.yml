@@ -1,0 +1,17 @@
+name: goreleaser
+
+on:
+  push:
+    branches: [latest]
+    tags: ["v*"]
+
+concurrency:
+  group: ci-push-version-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  goreleaser:
+    uses: ./.github/workflows/_goreleaser.yml
+  docker-buildx:
+    needs: goreleaser
+    uses: ./.github/workflows/_docker-buildx.yml

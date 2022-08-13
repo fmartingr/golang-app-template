@@ -1,0 +1,19 @@
+name: Go
+
+on:
+  workflow_call:
+    outputs:
+      go_versions:
+        description: "The golang version matrix"
+        value: ${{ jobs.go-versions.outputs.matrix }}
+
+jobs:
+  go-versions:
+    name: Lookup go versions
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.versions.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: arnested/go-version-action@v1
+        id: versions
