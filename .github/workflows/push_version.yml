@@ -1,5 +1,8 @@
 name: goreleaser
 
+# Keep in mind that the first run of this workflow will probable be pushed
+# without tags, so it will fail on the git command.
+
 on:
   push:
     branches: [latest]
