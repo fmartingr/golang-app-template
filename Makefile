@@ -61,7 +61,7 @@ clean: ###  clean test cache, build files
 	$(info: Make: Clean)
 	@rm -rf ${BUILDS_PATH}
 	@go clean ${CLEAN_OPTIONS}
-	@docker buildx rm ${PROJECT_NAME}_builder
+	@-docker buildx rm ${PROJECT_NAME}_builder
 
 .PHONY: build
 build: clean ### builds the project for the setup os/arch combinations
